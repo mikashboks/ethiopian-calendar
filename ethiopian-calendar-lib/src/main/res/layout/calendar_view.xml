@@ -10,18 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/backgroundColor"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/previous_month_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-
-            android:background="@drawable/ic_navigate_before_black_24dp"
             android:baselineAligned="false"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:src="@drawable/ic_navigate_before_black_24dp" />
 
         <LinearLayout
 
@@ -51,23 +50,23 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
+        <ImageView
             android:id="@+id/next_month_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:background="@drawable/ic_navigate_next_black_24dp"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:src="@drawable/ic_navigate_next_black_24dp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="?attr/backgroundColor"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginBottom="10dp">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/mon"

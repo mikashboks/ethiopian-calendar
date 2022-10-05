@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
@@ -17,8 +18,8 @@ import java.util.*
 class CustomCalendarView : LinearLayout {
     private lateinit var mContext: Context
     private val mCalendar: Calendar by lazy { Calendar.getInstance() }
-    private var mPreviousBtn: Button? = null
-    private var mNextBtn: Button? = null
+    private var mPreviousBtn: ImageView? = null
+    private var mNextBtn: ImageView? = null
     private var mCurrentMonthEC: TextView? = null
     private var mCurrentMonthGC: TextView? = null
     private var mCalendarGridView: GridView? = null
@@ -65,7 +66,7 @@ class CustomCalendarView : LinearLayout {
     private fun bindViews() {
         val inflater =
             mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = inflater.inflate(R.layout.calendar_view, this, false)
+        val view: View = inflater.inflate(R.layout.calendar_view, this)
 
         mPreviousBtn = view.findViewById(R.id.previous_month_button)
         mNextBtn = view.findViewById(R.id.next_month_button)
