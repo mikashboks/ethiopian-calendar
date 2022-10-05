@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="memo">ማስታወሻ</string>
+    <string name="calendar">የቀን መቁጠሪያ</string>
+    <string name="agenda">አጀንዳ</string>
+    <string name="sun">እሁድ</string>
+    <string name="mon">ሰኞ</string>
+    <string name="tue">ማክሰኞ</string>
+    <string name="wed">ረቡእ</string>
+    <string name="thu">ሃሙስ</string>
+    <string name="fri">አርብ</string>
+    <string name="sat">ቅዳሜ</string>
+
+    <string name="month1">መስከረም</string>
+    <string name="month2">ጥቅምት</string>
+    <string name="month3">ህዳር</string>
+    <string name="month4">ታህሳስ</string>
+    <string name="month5">ጥር</string>
+    <string name="month6">የካቲት</string>
+    <string name="month7">መጋቢት</string>
+    <string name="month8">ሚያዚያ</string>
+    <string name="month9">ግንቦት</string>
+    <string name="month10">ሰኔ</string>
+    <string name="month11">ኅምሌ</string>
+    <string name="month12">ነኅሴ</string>
+    <string name="month13">ጳጉሜ</string>
+    <string name="last_date">30</string>
+</resources>

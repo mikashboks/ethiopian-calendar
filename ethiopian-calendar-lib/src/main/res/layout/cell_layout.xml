@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cell_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/today_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        tools:layout_conversion_absoluteHeight="24dp"
+        tools:layout_conversion_absoluteWidth="385dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="19dp"
+        tools:srcCompat="@drawable/ic_bookmark_black_24dp" />
+
+    <TextView
+        android:id="@+id/calendar_date_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_date"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:layout_conversion_absoluteHeight="21dp"
+        tools:layout_conversion_absoluteWidth="385dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="43dp" />
+
+    <TextView
+        android:id="@+id/calendar_date_id_greg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_date"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        tools:layout_conversion_absoluteHeight="13dp"
+        tools:layout_conversion_absoluteWidth="385dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="64dp" />
+
+</LinearLayout>
