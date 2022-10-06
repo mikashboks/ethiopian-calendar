@@ -27,21 +27,37 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianMonth = 0
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
+    private var calendarPrimaryColor: Int = 0
 
     /**
      * Minimal long date that user can select
      */
     var minDate: Long? = null
+        set(value) {
+            field = value
+            validateMinDate()
+        }
 
     /**
      * Maximum long date that user can select
      */
     var maxDate: Long? = null
+        set(value) {
+            field = value
+            validateMaxDate()
+        }
 
     /**
      * By Default selected long date when calendar first time opens
      */
     var openAt: Long? = null
+        set(value) {
+            field = value
+            value?.let {
+                mCalendar.timeInMillis = it
+                openAt()
+            }
+        }
 
     constructor(context: Context?) : super(context) {
         initView(null)
@@ -59,36 +75,20 @@ class CustomCalendarView : LinearLayout {
         initView(attrs)
     }
 
-    // TODO: invalidate view when min date set
-    private fun validateMinDate() {
-        if (minDate == null) return
-        val minCalendar = Calendar.getInstance().apply {
-            timeInMillis = minDate!!
-        }
-        val minValues: IntArray = EthiopicCalendar(minCalendar).gregorianToEthiopic()
-        val ethMinDate = getEtCalendar(minValues)
-
-        val enablePrevMonthArrow = if (ethMinDate[Calendar.MONTH] <= mCurrentEthiopianMonth - 1 &&
-            ethMinDate[Calendar.YEAR] <= mCurrentEthiopianYear
-        ) true
-        else ethMinDate[Calendar.YEAR] < mCurrentEthiopianYear
-        mPreviousBtn?.enableView(enablePrevMonthArrow)
-    }
-
-    // TODO: invalidate view when max date set
-    private fun validateMaxDate() {
-        if (maxDate == null) return
-        val maxCalendar = Calendar.getInstance().apply {
-            timeInMillis = maxDate!!
-        }
-        val maxValues: IntArray = EthiopicCalendar(maxCalendar).gregorianToEthiopic()
-        val ethMaxDate = getEtCalendar(maxValues)
-
-        val enableNextMonthArrow = if (ethMaxDate[Calendar.MONTH] >= mCurrentEthiopianMonth + 1 &&
-            ethMaxDate[Calendar.YEAR] >= mCurrentEthiopianYear
-        ) true
-        else ethMaxDate[Calendar.YEAR] > mCurrentEthiopianYear
-        mNextBtn?.enableView(enableNextMonthArrow)
+    private fun openAt() {
+        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
+        mCurrentEthiopianYear = values[0]
+        mCurrentEthiopianMonth = values[1]
+        mCurrentEthiopianDay = values[2]
+        dayValueInCells = getListOfDates(mCalendar)
+        setCalendarHeaderLabel()
+        mAdapter = CalendarGridAdapter(
+            context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
+        )
+        // mAdapter!!.selectedDate = Date(mCurrentEthiopianYear, mCurrentEthiopianMonth, mCurrentEthiopianDay)
+        mCalendarGridView!!.adapter = mAdapter
+        validateMinDate()
+        validateMaxDate()
     }
 
     private fun initView(attrs: AttributeSet?) {
@@ -99,7 +99,7 @@ class CustomCalendarView : LinearLayout {
         dayValueInCells = getListOfDates(mCalendar)
 
         // Get the calendar primary color
-        val calendarPrimaryColor =
+        calendarPrimaryColor =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CustomCalendarView, 0, 0)
                 .getColor(
                     R.styleable.CustomCalendarView_calendarPrimaryColor,
@@ -131,7 +131,7 @@ class CustomCalendarView : LinearLayout {
         mNextBtn = view.findViewById(R.id.next_month_button)
         mCurrentMonthEC = view.findViewById(R.id.month_display_EC)
         mCurrentMonthGC = view.findViewById(R.id.moth_display_GC)
-        setLabel()
+        setCalendarHeaderLabel()
         mCalendarGridView = view.findViewById(R.id.calendar_grid)
         mNextBtn?.setOnClickListener {
             mCurrentEthiopianYear =
@@ -147,26 +147,50 @@ class CustomCalendarView : LinearLayout {
                 if (mCurrentEthiopianMonth > 1) mCurrentEthiopianMonth - 1 else 13
             changeMonth()
         }
-
-
-//        mCalendarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                Toast.makeText(mContext, "Clicked " + position, Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     private fun changeMonth() {
         val list = getListOfDates(mCalendar)
         mAdapter?.setDates(list, mFirstDayOfTheMonth!!)
         mAdapter?.notifyDataSetChanged()
-        setLabel()
+        setCalendarHeaderLabel()
         validateMinDate()
         validateMaxDate()
     }
 
-    private fun setLabel() {
+    private fun validateMinDate() {
+        if (minDate == null) return
+        val minCalendar = Calendar.getInstance().apply {
+            timeInMillis = minDate!!
+        }
+        val minValues: IntArray = EthiopicCalendar(minCalendar).gregorianToEthiopic()
+        // val ethMinDate = getEtCalendar(minValues)
+        val prevMonth = minValues[1]
+        val prevYear = minValues[0]
+
+        val enablePrevMonthArrow = if (prevMonth <= mCurrentEthiopianMonth &&
+            prevYear <= mCurrentEthiopianYear
+        ) true
+        else prevYear < mCurrentEthiopianYear
+        mPreviousBtn?.enableView(enablePrevMonthArrow)
+    }
+
+    private fun validateMaxDate() {
+        if (maxDate == null) return
+        val maxCalendar = Calendar.getInstance().apply {
+            timeInMillis = maxDate!!
+        }
+        val maxValues: IntArray = EthiopicCalendar(maxCalendar).gregorianToEthiopic()
+        val ethMaxDate = getEtCalendar(maxValues)
+
+        val enableNextMonthArrow = if (ethMaxDate[Calendar.MONTH] >= mCurrentEthiopianMonth + 1 &&
+            ethMaxDate[Calendar.YEAR] >= mCurrentEthiopianYear
+        ) true
+        else ethMaxDate[Calendar.YEAR] > mCurrentEthiopianYear
+        mNextBtn?.enableView(enableNextMonthArrow)
+    }
+
+    private fun setCalendarHeaderLabel() {
         val currentMonthECD =
             context.getString(DayAndDates.Months.ethMonths.get(mCurrentEthiopianMonth - 1)) + " " + mCurrentEthiopianYear
         val cal = Calendar.getInstance()
