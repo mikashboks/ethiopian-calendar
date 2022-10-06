@@ -10,7 +10,7 @@ class DayAndDates {
             R.string.month11, R.string.month12, R.string.month13
         )
         var gMonths = arrayOf(
-            "January",
+            "Jan",
             "Feb",
             "MAr",
             "Apr",

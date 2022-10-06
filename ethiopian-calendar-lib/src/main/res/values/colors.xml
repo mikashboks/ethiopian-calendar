@@ -8,4 +8,5 @@
     <color name="ImperialRed">#ED2939</color>
     <color name="LightGrey">#d1d1d6</color>
     <color name="GreyBlue">#677a8f</color>
+    <color name="line_background_dark">#F0F0F0</color>
 </resources>

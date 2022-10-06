@@ -29,7 +29,6 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianMonth = 0
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
-    private var mFragmentManager: FragmentManager? = null
 
     constructor(context: Context?) : super(context) {
         mContext = context!!
@@ -153,11 +152,6 @@ class CustomCalendarView : LinearLayout {
             "Current Month GC " + values[1] + " CURRENT MONTH EC " + mCurrentEthiopianMonth
         )
         mFirstDayOfTheMonth = mCalendar.time
-    }
-
-    fun setFM(childFragmentManager: FragmentManager?, context: Context?) {
-        mFragmentManager = childFragmentManager
-        mAdapter?.setFM(mFragmentManager)
     }
 
     companion object {
