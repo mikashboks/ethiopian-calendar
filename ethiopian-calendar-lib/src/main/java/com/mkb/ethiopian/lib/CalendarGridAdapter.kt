@@ -21,7 +21,7 @@ class CalendarGridAdapter(
     private val calendarPrimaryColor: Int, private var firstDayofTheMonthDate: Date
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
-    private var selectedDate: Date? = null
+    var selectedDate: Date? = null
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 
@@ -81,6 +81,7 @@ class CalendarGridAdapter(
                 Calendar.getInstance()[Calendar.MONTH] == calendarSelected[Calendar.MONTH]
             ) {
 
+                if(selectedDate == null) selectedDate = mTodayDate
                 todayDateView.isVisible = true
 
                 if (selectedDate == mTodayDate) {
