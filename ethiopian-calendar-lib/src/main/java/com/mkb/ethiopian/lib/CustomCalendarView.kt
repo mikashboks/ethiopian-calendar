@@ -15,7 +15,9 @@ import java.util.*
 
 
 class CustomCalendarView : LinearLayout {
-    private val mCalendar: Calendar by lazy { Calendar.getInstance() }
+    private val mCalendar: Calendar by lazy {
+        removeTime(Calendar.getInstance())
+    }
     private var mPreviousBtn: ImageView? = null
     private var mNextBtn: ImageView? = null
     private var mCurrentMonthEC: TextView? = null
@@ -85,7 +87,7 @@ class CustomCalendarView : LinearLayout {
         mAdapter = CalendarGridAdapter(
             context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
         )
-        // mAdapter!!.selectedDate = Date(mCurrentEthiopianYear, mCurrentEthiopianMonth, mCurrentEthiopianDay)
+        mAdapter!!.selectedDate = openAt
         mCalendarGridView!!.adapter = mAdapter
         validateMinDate()
         validateMaxDate()

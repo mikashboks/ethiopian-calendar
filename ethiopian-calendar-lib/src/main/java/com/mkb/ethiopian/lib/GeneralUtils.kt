@@ -30,3 +30,29 @@ fun ImageView.enableView(enable: Boolean) {
         ), PorterDuff.Mode.SRC_IN
     )
 }
+
+fun removeTime(day: Int, month: Int, year: Int): Calendar {
+    return removeTime(Calendar.getInstance().apply {
+        set(year, month, day)
+    })
+}
+
+fun removeTime(calendar: Calendar): Calendar {
+    return Calendar.getInstance().apply {
+        timeInMillis = calendar.timeInMillis
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
+}
+
+fun Calendar.isEqualDate(date: Long?): Boolean {
+    if(date == null) return false
+    val dateCal = Calendar.getInstance().apply {
+        timeInMillis = date
+    }
+    return get(Calendar.DAY_OF_MONTH) == dateCal[Calendar.DAY_OF_MONTH] &&
+            get(Calendar.MONTH) == dateCal[Calendar.MONTH] &&
+            get(Calendar.YEAR) == dateCal[Calendar.YEAR]
+}

@@ -21,7 +21,7 @@ class CalendarGridAdapter(
     private val calendarPrimaryColor: Int, private var firstDayofTheMonthDate: Date
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
-    var selectedDate: Date? = null
+    var selectedDate: Long? = null
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 
@@ -70,25 +70,29 @@ class CalendarGridAdapter(
 
         with(cellViewHolder) {
             todayDateView.isVisible = false
-            selectedDateView.isVisible = selectedDate == mTodayDate
+            selectedDateView.isVisible = calendarSelected.isEqualDate(selectedDate) &&
+                    displayMonthEth == currentMonth && displayYearEth == currentYear
             cellDateEth.text = dayValueEth.toString()
             cellDateGreg.text =
                 DayAndDates.Months.gMonths.get(calendarSelected[Calendar.MONTH]) + " " + calendarSelected[Calendar.DAY_OF_MONTH]
 
-            cellViewHolder.selectedDateView.setColorFilter(calendarPrimaryColor, PorterDuff.Mode.SRC_IN)
+            cellViewHolder.selectedDateView.setColorFilter(
+                calendarPrimaryColor,
+                PorterDuff.Mode.SRC_IN
+            )
 
             if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
                 Calendar.getInstance()[Calendar.YEAR] == calendarSelected[Calendar.YEAR] &&
                 Calendar.getInstance()[Calendar.MONTH] == calendarSelected[Calendar.MONTH]
             ) {
 
-                if(selectedDate == null) {
+                if (selectedDate == null) {
                     selectedDateView.isVisible = true
-                    selectedDate = mTodayDate
+                    selectedDate = calendarSelected.timeInMillis
                 }
                 todayDateView.isVisible = true
 
-                if (selectedDate == mTodayDate) {
+                if (calendarSelected.isEqualDate(selectedDate)) {
                     cellDateEth.setTextColor(
                         ContextCompat.getColor(mContext, R.color.colorWhite)
                     )
@@ -100,7 +104,7 @@ class CalendarGridAdapter(
                     cellDateGreg.setTextColor(calendarPrimaryColor)
                 }
 
-            } else if (selectedDate == mTodayDate) {
+            } else if (calendarSelected.isEqualDate(selectedDate) && displayMonthEth == currentMonth && displayYearEth == currentYear) {
                 cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
                 cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
             } else if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
@@ -114,7 +118,7 @@ class CalendarGridAdapter(
 
         view.setOnClickListener {
             if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
-                selectedDate = mTodayDate
+                selectedDate = calendarSelected.timeInMillis
                 Toast.makeText(mContext, "Selected: $selectedDate", Toast.LENGTH_SHORT).show()
                 notifyDataSetChanged()
             }
