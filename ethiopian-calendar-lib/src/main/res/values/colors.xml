@@ -7,5 +7,6 @@
     <color name="colorBlack">#000000</color>
     <color name="ImperialRed">#ED2939</color>
     <color name="LightGrey">#d1d1d6</color>
+    <color name="white_50">#80FFFFFF</color>
     <color name="GreyBlue">#677a8f</color>
 </resources>

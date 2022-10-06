@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.mkb.ethiopian.sample.databinding.FragmentFirstBinding
+import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -29,6 +29,14 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.calendarView.minDate = Calendar.getInstance().let {
+            it.set(2022, 7, 1);it.timeInMillis
+        }
+
+        binding.calendarView.maxDate = Calendar.getInstance().let {
+            it.set(2022, 12, 1);it.timeInMillis
+        }
 
         /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)

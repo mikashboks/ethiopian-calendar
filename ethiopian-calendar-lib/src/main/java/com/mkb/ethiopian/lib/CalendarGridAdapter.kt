@@ -66,6 +66,8 @@ class CalendarGridAdapter(
         val currentMonth = values[1]
         val currentYear = values[0]
 
+        calendarSelected.time = mTodayDate
+
         with(cellViewHolder) {
             todayDateView.isVisible = false
             selectedDateView.isVisible = selectedDate == mTodayDate
@@ -73,7 +75,6 @@ class CalendarGridAdapter(
             cellDateGreg.text =
                 DayAndDates.Months.gMonths.get(calendarSelected[Calendar.MONTH]) + " " + calendarSelected[Calendar.DAY_OF_MONTH]
 
-            calendarSelected.time = mTodayDate
             cellViewHolder.selectedDateView.setColorFilter(calendarPrimaryColor, PorterDuff.Mode.SRC_IN)
 
             if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
@@ -81,7 +82,10 @@ class CalendarGridAdapter(
                 Calendar.getInstance()[Calendar.MONTH] == calendarSelected[Calendar.MONTH]
             ) {
 
-                if(selectedDate == null) selectedDate = mTodayDate
+                if(selectedDate == null) {
+                    selectedDateView.isVisible = true
+                    selectedDate = mTodayDate
+                }
                 todayDateView.isVisible = true
 
                 if (selectedDate == mTodayDate) {

@@ -28,6 +28,21 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
 
+    /**
+     * Minimal long date that user can select
+     */
+    var minDate: Long? = null
+
+    /**
+     * Maximum long date that user can select
+     */
+    var maxDate: Long? = null
+
+    /**
+     * By Default selected long date when calendar first time opens
+     */
+    var openAt: Long? = null
+
     constructor(context: Context?) : super(context) {
         initView(null)
     }
@@ -42,6 +57,38 @@ class CustomCalendarView : LinearLayout {
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         initView(attrs)
+    }
+
+    // TODO: invalidate view when min date set
+    private fun validateMinDate() {
+        if (minDate == null) return
+        val minCalendar = Calendar.getInstance().apply {
+            timeInMillis = minDate!!
+        }
+        val minValues: IntArray = EthiopicCalendar(minCalendar).gregorianToEthiopic()
+        val ethMinDate = getEtCalendar(minValues)
+
+        val enablePrevMonthArrow = if (ethMinDate[Calendar.MONTH] <= mCurrentEthiopianMonth - 1 &&
+            ethMinDate[Calendar.YEAR] <= mCurrentEthiopianYear
+        ) true
+        else ethMinDate[Calendar.YEAR] < mCurrentEthiopianYear
+        mPreviousBtn?.enableView(enablePrevMonthArrow)
+    }
+
+    // TODO: invalidate view when max date set
+    private fun validateMaxDate() {
+        if (maxDate == null) return
+        val maxCalendar = Calendar.getInstance().apply {
+            timeInMillis = maxDate!!
+        }
+        val maxValues: IntArray = EthiopicCalendar(maxCalendar).gregorianToEthiopic()
+        val ethMaxDate = getEtCalendar(maxValues)
+
+        val enableNextMonthArrow = if (ethMaxDate[Calendar.MONTH] >= mCurrentEthiopianMonth + 1 &&
+            ethMaxDate[Calendar.YEAR] >= mCurrentEthiopianYear
+        ) true
+        else ethMaxDate[Calendar.YEAR] > mCurrentEthiopianYear
+        mNextBtn?.enableView(enableNextMonthArrow)
     }
 
     private fun initView(attrs: AttributeSet?) {
@@ -68,6 +115,9 @@ class CustomCalendarView : LinearLayout {
             context.resources.getDimension(R.dimen.item_spacing).toInt()
         mCalendarGridView!!.verticalSpacing =
             context.resources.getDimension(R.dimen.item_spacing).toInt()
+
+        validateMinDate()
+        validateMaxDate()
     }
 
     private fun bindViews(calendarPrimaryColor: Int) {
@@ -112,6 +162,8 @@ class CustomCalendarView : LinearLayout {
         mAdapter?.setDates(list, mFirstDayOfTheMonth!!)
         mAdapter?.notifyDataSetChanged()
         setLabel()
+        validateMinDate()
+        validateMaxDate()
     }
 
     private fun setLabel() {
