@@ -5,12 +5,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat
 import com.mkb.ethiopian.lib.models.DayAndDates
 import java.util.*
 
@@ -32,7 +31,7 @@ class CustomCalendarView : LinearLayout {
 
     constructor(context: Context?) : super(context) {
         mContext = context!!
-        initView()
+        initView(null)
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -41,31 +40,52 @@ class CustomCalendarView : LinearLayout {
         defStyleAttr
     ) {
         mContext = context!!
-        initView()
+        initView(attrs)
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         mContext = context!!
-        initView()
+        initView(attrs)
     }
 
-    private fun initView(){
+    private fun initView(attrs: AttributeSet?) {
         val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
         mCurrentEthiopianYear = values[0]
         mCurrentEthiopianMonth = values[1]
         mCurrentEthiopianDay = values[2]
         dayValueInCells = getListOfDates(mCalendar)
-        bindViews()
-        mAdapter = CalendarGridAdapter(mContext, dayValueInCells, mFirstDayOfTheMonth!!)
+        bindViews(attrs)
+        val calendarPrimaryColor =
+            mContext.theme.obtainStyledAttributes(attrs, R.styleable.CustomCalendarView, 0, 0)
+                .getColor(
+                    R.styleable.CustomCalendarView_calendarPrimaryColor,
+                    ContextCompat.getColor(context, R.color.colorPrimary)
+                )
+        mAdapter = CalendarGridAdapter(
+            mContext,
+            dayValueInCells,
+            calendarPrimaryColor,
+            mFirstDayOfTheMonth!!
+        )
         mCalendarGridView!!.adapter = mAdapter
         mCalendarGridView!!.horizontalSpacing = 4
         mCalendarGridView!!.verticalSpacing = 4
     }
 
-    private fun bindViews() {
+    private fun bindViews(attrs: AttributeSet?) {
         val inflater =
             mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = inflater.inflate(R.layout.calendar_view, this)
+
+        mContext.theme.obtainStyledAttributes(attrs, R.styleable.CustomCalendarView, 0, 0).apply {
+            val calendarPrimaryColor =
+                getColor(
+                    R.styleable.CustomCalendarView_calendarPrimaryColor,
+                    ContextCompat.getColor(context, R.color.colorPrimary)
+                )
+            view.findViewById<View>(R.id.header_title).setBackgroundColor(calendarPrimaryColor)
+            view.findViewById<View>(R.id.subheader).setBackgroundColor(calendarPrimaryColor)
+        }
 
         mPreviousBtn = view.findViewById(R.id.previous_month_button)
         mNextBtn = view.findViewById(R.id.next_month_button)

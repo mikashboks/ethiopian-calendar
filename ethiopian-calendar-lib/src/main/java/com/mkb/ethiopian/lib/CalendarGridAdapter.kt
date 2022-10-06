@@ -2,6 +2,7 @@ package com.mkb.ethiopian.lib
 
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import java.util.*
 
 class CalendarGridAdapter(
     private val mContext: Context, private var monthlyDates: List<Date>, // first Day of the month
-    private var firstDayofTheMonthDate: Date
+    private val calendarPrimaryColor: Int, private var firstDayofTheMonthDate: Date
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
     private var selectedDate: Date? = null
@@ -73,6 +74,7 @@ class CalendarGridAdapter(
                 DayAndDates.Months.gMonths.get(calendarSelected[Calendar.MONTH]) + " " + calendarSelected[Calendar.DAY_OF_MONTH]
 
             calendarSelected.time = mTodayDate
+            cellViewHolder.selectedDateView.setColorFilter(calendarPrimaryColor, PorterDuff.Mode.SRC_IN)
 
             if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
                 Calendar.getInstance()[Calendar.YEAR] == calendarSelected[Calendar.YEAR] &&
@@ -89,32 +91,28 @@ class CalendarGridAdapter(
                         ContextCompat.getColor(mContext, R.color.colorWhite)
                     )
                 } else {
-                    cellDateEth.setTextColor(mContext.getColorFromContext(R.attr.cellTextColorToday))
-                    cellDateGreg.setTextColor(mContext.getColorFromContext(R.attr.cellTextColorToday))
+                    cellDateEth.setTextColor(calendarPrimaryColor)
+                    cellDateGreg.setTextColor(calendarPrimaryColor)
                 }
 
             } else if (selectedDate == mTodayDate) {
-
-                cellDateEth.setTextColor(
-                    ContextCompat.getColor(mContext, R.color.colorWhite)
-                )
-                cellDateGreg.setTextColor(
-                    ContextCompat.getColor(mContext, R.color.colorWhite)
-                )
-
+                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
+                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
             } else if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
-                cellDateEth.setTextColor(mContext.getColorFromContext(R.attr.cellTextColor))
-                cellDateGreg.setTextColor(mContext.getColorFromContext(R.attr.cellTextColor))
+                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.GreyBlue))
+                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.GreyBlue))
             } else {
-                cellDateEth.setTextColor(mContext.getColorFromContext(R.attr.cellTextColorOff))
-                cellDateGreg.setTextColor(mContext.getColorFromContext(R.attr.cellTextColorOff))
+                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.LightGrey))
+                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.LightGrey))
             }
         }
 
         view.setOnClickListener {
-            selectedDate = mTodayDate
-            Toast.makeText(mContext, "Selected: $selectedDate", Toast.LENGTH_SHORT).show()
-            notifyDataSetChanged()
+            if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
+                selectedDate = mTodayDate
+                Toast.makeText(mContext, "Selected: $selectedDate", Toast.LENGTH_SHORT).show()
+                notifyDataSetChanged()
+            }
         }
 
         return view

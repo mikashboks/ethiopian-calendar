@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/backgroundColor"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -38,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ማክሰኞ 2019"
-                android:textColor="?attr/textColor"
+                android:textColor="@color/colorWhite"
                 android:textSize="18sp" />
 
             <TextView
@@ -46,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="may 2019"
-                android:textColor="?attr/textColor"
+                android:textColor="@color/colorWhite"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -62,10 +61,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/subheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="?attr/backgroundColor"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
@@ -78,7 +78,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/mon"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -89,7 +89,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/tue"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/wed"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -111,7 +111,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/thu"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -122,7 +122,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/fri"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -133,7 +133,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/sat"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
         <TextView
@@ -144,7 +144,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/sun"
-            android:textColor="?attr/textColor"
+            android:textColor="@color/colorWhite"
             android:textStyle="bold" />
     </LinearLayout>
 
