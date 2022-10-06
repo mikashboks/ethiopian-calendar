@@ -166,14 +166,12 @@ class CustomCalendarView : LinearLayout {
             timeInMillis = minDate!!
         }
         val minValues: IntArray = EthiopicCalendar(minCalendar).gregorianToEthiopic()
-        // val ethMinDate = getEtCalendar(minValues)
         val prevMonth = minValues[1]
         val prevYear = minValues[0]
 
-        val enablePrevMonthArrow = if (prevMonth <= mCurrentEthiopianMonth &&
+        val enablePrevMonthArrow = if (prevMonth < mCurrentEthiopianMonth &&
             prevYear <= mCurrentEthiopianYear
-        ) true
-        else prevYear < mCurrentEthiopianYear
+        ) true else prevYear < mCurrentEthiopianYear
         mPreviousBtn?.enableView(enablePrevMonthArrow)
     }
 
@@ -183,12 +181,12 @@ class CustomCalendarView : LinearLayout {
             timeInMillis = maxDate!!
         }
         val maxValues: IntArray = EthiopicCalendar(maxCalendar).gregorianToEthiopic()
-        val ethMaxDate = getEtCalendar(maxValues)
+        val nextMonth = maxValues[1]
+        val nextYear = maxValues[0]
 
-        val enableNextMonthArrow = if (ethMaxDate[Calendar.MONTH] >= mCurrentEthiopianMonth + 1 &&
-            ethMaxDate[Calendar.YEAR] >= mCurrentEthiopianYear
-        ) true
-        else ethMaxDate[Calendar.YEAR] > mCurrentEthiopianYear
+        val enableNextMonthArrow = if (nextMonth > mCurrentEthiopianMonth &&
+            nextYear >= mCurrentEthiopianYear
+        ) true else nextYear > mCurrentEthiopianYear
         mNextBtn?.enableView(enableNextMonthArrow)
     }
 
