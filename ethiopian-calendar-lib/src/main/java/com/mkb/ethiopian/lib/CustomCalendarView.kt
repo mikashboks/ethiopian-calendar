@@ -11,7 +11,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mkb.ethiopian.lib.models.DayAndDates
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 
 class CustomCalendarView : LinearLayout {
@@ -38,6 +39,7 @@ class CustomCalendarView : LinearLayout {
         set(value) {
             field = value
             validateMinDate()
+            mAdapter?.minDate = value
         }
 
     /**
@@ -47,6 +49,7 @@ class CustomCalendarView : LinearLayout {
         set(value) {
             field = value
             validateMaxDate()
+            mAdapter?.maxDate = value
         }
 
     /**

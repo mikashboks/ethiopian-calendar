@@ -31,15 +31,15 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.calendarView.openAt = Calendar.getInstance().let {
-            it.set(2023, 6, 7); it.timeInMillis
+            it.set(2023, 6, 2); it.timeInMillis
         }
 
         binding.calendarView.minDate = Calendar.getInstance().let {
-            it.set(2023, 3, 1); it.timeInMillis
+            it.set(2023, 5, 1); it.timeInMillis
         }
 
         binding.calendarView.maxDate = Calendar.getInstance().let {
-            it.set(2023, 7, 7); it.timeInMillis
+            it.set(2023, 7, 1); it.timeInMillis
         }
 
         /*binding.buttonFirst.setOnClickListener {

@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import java.util.*
+import java.util.Calendar
 
 fun Context.getColorFromContext(@ColorInt resId: Int): Int {
     val typedValue = TypedValue()
@@ -48,11 +48,21 @@ fun removeTime(calendar: Calendar): Calendar {
 }
 
 fun Calendar.isEqualDate(date: Long?): Boolean {
-    if(date == null) return false
+    if (date == null) return false
     val dateCal = Calendar.getInstance().apply {
         timeInMillis = date
     }
     return get(Calendar.DAY_OF_MONTH) == dateCal[Calendar.DAY_OF_MONTH] &&
             get(Calendar.MONTH) == dateCal[Calendar.MONTH] &&
             get(Calendar.YEAR) == dateCal[Calendar.YEAR]
+}
+
+fun Calendar.isGreaterThanOrEqual(date: Long?): Boolean {
+    if (date == null) return false
+    return timeInMillis > date || isEqualDate(date)
+}
+
+fun Calendar.isLessThanOrEqual(date: Long?): Boolean {
+    if (date == null) return false
+    return timeInMillis < date || isEqualDate(date)
 }

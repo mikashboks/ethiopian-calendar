@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.mkb.ethiopian.lib.models.DayAndDates
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
 
 class CalendarGridAdapter(
@@ -22,6 +24,22 @@ class CalendarGridAdapter(
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
     var selectedDate: Long? = null
+
+    var minDate: Long? = null
+        set(value) {
+            field = value
+            value?.let {
+                notifyDataSetChanged()
+            }
+        }
+
+    var maxDate: Long? = null
+        set(value) {
+            field = value
+            value?.let {
+                notifyDataSetChanged()
+            }
+        }
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 
@@ -81,7 +99,10 @@ class CalendarGridAdapter(
                 PorterDuff.Mode.SRC_IN
             )
 
-            if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
+            if ((minDate != null && !calendarSelected.isGreaterThanOrEqual(minDate)) ||
+                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))) {
+                    setTextColorRes(R.color.LightGrey)
+                } else if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
                 Calendar.getInstance()[Calendar.YEAR] == calendarSelected[Calendar.YEAR] &&
                 Calendar.getInstance()[Calendar.MONTH] == calendarSelected[Calendar.MONTH]
             ) {
@@ -93,30 +114,24 @@ class CalendarGridAdapter(
                 todayDateView.isVisible = true
 
                 if (calendarSelected.isEqualDate(selectedDate)) {
-                    cellDateEth.setTextColor(
-                        ContextCompat.getColor(mContext, R.color.colorWhite)
-                    )
-                    cellDateGreg.setTextColor(
-                        ContextCompat.getColor(mContext, R.color.colorWhite)
-                    )
-                } else {
-                    cellDateEth.setTextColor(calendarPrimaryColor)
-                    cellDateGreg.setTextColor(calendarPrimaryColor)
-                }
+                    setTextColorRes(R.color.colorWhite)
+                } else setTextColorRes(calendarPrimaryColor)
 
-            } else if (calendarSelected.isEqualDate(selectedDate) && displayMonthEth == currentMonth && displayYearEth == currentYear) {
-                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
-                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite))
+            } else if (calendarSelected.isEqualDate(selectedDate) &&
+                displayMonthEth == currentMonth && displayYearEth == currentYear
+            ) {
+                setTextColorRes(R.color.colorWhite)
             } else if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
-                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.GreyBlue))
-                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.GreyBlue))
-            } else {
-                cellDateEth.setTextColor(ContextCompat.getColor(mContext, R.color.LightGrey))
-                cellDateGreg.setTextColor(ContextCompat.getColor(mContext, R.color.LightGrey))
-            }
+                setTextColorRes(R.color.GreyBlue)
+            } else setTextColorRes(R.color.LightGrey)
         }
 
         view.setOnClickListener {
+            if ((minDate != null && !calendarSelected.isGreaterThanOrEqual(minDate)) ||
+                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))) {
+                return@setOnClickListener
+            }
+
             if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
                 selectedDate = calendarSelected.timeInMillis
                 Toast.makeText(mContext, "Selected: $selectedDate", Toast.LENGTH_SHORT).show()
@@ -125,6 +140,15 @@ class CalendarGridAdapter(
         }
 
         return view
+    }
+
+    private fun CellViewHolder.setTextColorRes(@ColorRes colorResId: Int) {
+        setTextColor(ContextCompat.getColor(mContext, colorResId))
+    }
+
+    private fun CellViewHolder.setTextColor(colorResId: Int) {
+        cellDateEth.setTextColor(colorResId)
+        cellDateGreg.setTextColor(colorResId)
     }
 
     private class CellViewHolder(view: View) {
