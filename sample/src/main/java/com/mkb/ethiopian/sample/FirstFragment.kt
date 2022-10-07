@@ -1,12 +1,14 @@
 package com.mkb.ethiopian.sample
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.mkb.ethiopian.lib.models.OnSelectListener
 import com.mkb.ethiopian.sample.databinding.FragmentFirstBinding
-import java.util.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -45,6 +47,17 @@ class FirstFragment : Fragment() {
         /*binding.buttonFirst.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }*/
+
+        binding.calendarView.onSelectListener = object : OnSelectListener {
+            override fun onDateSelect(date: Long) {
+                val dateString = DateFormat.format("dd MM yyyy", date)
+                Toast.makeText(
+                    requireContext(),
+                    "Selected Date: $dateString",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

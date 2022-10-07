@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mkb.ethiopian.lib.models.DayAndDates
+import com.mkb.ethiopian.lib.models.OnSelectListener
 import java.util.Calendar
 import java.util.Date
 
@@ -31,6 +32,8 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
     private var calendarPrimaryColor: Int = 0
+
+    lateinit var onSelectListener: OnSelectListener
 
     /**
      * Minimal long date that user can select
@@ -100,7 +103,11 @@ class CustomCalendarView : LinearLayout {
         setCalendarHeaderLabel()
         mAdapter = CalendarGridAdapter(
             context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
-        )
+        ) {
+            if (::onSelectListener.isInitialized) {
+                onSelectListener.onDateSelect(it)
+            }
+        }
         mAdapter!!.selectedDate = openAt
         mCalendarGridView!!.adapter = mAdapter
         validateMinDate()
@@ -125,7 +132,11 @@ class CustomCalendarView : LinearLayout {
         bindViews(calendarPrimaryColor)
         mAdapter = CalendarGridAdapter(
             context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
-        )
+        ) {
+            if (::onSelectListener.isInitialized) {
+                onSelectListener.onDateSelect(it)
+            }
+        }
         mCalendarGridView!!.adapter = mAdapter
         mCalendarGridView!!.horizontalSpacing =
             context.resources.getDimension(R.dimen.item_spacing).toInt()

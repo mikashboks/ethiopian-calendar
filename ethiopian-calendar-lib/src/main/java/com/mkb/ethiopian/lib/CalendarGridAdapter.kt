@@ -20,7 +20,8 @@ import java.util.Date
 
 class CalendarGridAdapter(
     private val mContext: Context, private var monthlyDates: List<Date>, // first Day of the month
-    private val calendarPrimaryColor: Int, private var firstDayofTheMonthDate: Date
+    private val calendarPrimaryColor: Int, private var firstDayofTheMonthDate: Date,
+    private val onDateSelect: (Long) -> Unit
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
     var selectedDate: Long? = null
@@ -103,9 +104,10 @@ class CalendarGridAdapter(
             )
 
             if ((minDate != null && !calendarSelected.isGreaterThanOrEqual(minDate)) ||
-                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))) {
-                    setTextColorRes(R.color.LightGrey)
-                } else if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
+                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))
+            ) {
+                setTextColorRes(R.color.LightGrey)
+            } else if (Calendar.getInstance()[Calendar.DAY_OF_MONTH] == calendarSelected[Calendar.DAY_OF_MONTH] &&
                 Calendar.getInstance()[Calendar.YEAR] == calendarSelected[Calendar.YEAR] &&
                 Calendar.getInstance()[Calendar.MONTH] == calendarSelected[Calendar.MONTH]
             ) {
@@ -131,13 +133,14 @@ class CalendarGridAdapter(
 
         view.setOnClickListener {
             if ((minDate != null && !calendarSelected.isGreaterThanOrEqual(minDate)) ||
-                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))) {
+                (maxDate != null && !calendarSelected.isLessThanOrEqual(maxDate))
+            ) {
                 return@setOnClickListener
             }
 
             if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
                 selectedDate = calendarSelected.timeInMillis
-                Toast.makeText(mContext, "Selected: $selectedDate", Toast.LENGTH_SHORT).show()
+                onDateSelect.invoke(calendarSelected.timeInMillis)
                 notifyDataSetChanged()
             }
         }
