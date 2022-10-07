@@ -25,4 +25,6 @@
     <string name="month12">ነኅሴ</string>
     <string name="month13">ጳጉሜ</string>
     <string name="last_date">30</string>
+    <string name="button_positive">OK</string>
+    <string name="button_negative">Cancel</string>
 </resources>

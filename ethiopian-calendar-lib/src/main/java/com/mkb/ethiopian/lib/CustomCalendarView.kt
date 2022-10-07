@@ -31,7 +31,15 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianMonth = 0
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
-    private var calendarPrimaryColor: Int = 0
+
+    var calendarPrimaryColor: Int = 0
+        set(value) {
+            field = value
+            if (value > 0) {
+                loadAdapter()
+                setHeaderColors()
+            }
+        }
 
     lateinit var onSelectListener: OnSelectListener
 
@@ -94,13 +102,7 @@ class CustomCalendarView : LinearLayout {
         initView(attrs)
     }
 
-    private fun openAt() {
-        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
-        mCurrentEthiopianYear = values[0]
-        mCurrentEthiopianMonth = values[1]
-        mCurrentEthiopianDay = values[2]
-        dayValueInCells = getListOfDates(mCalendar)
-        setCalendarHeaderLabel()
+    private fun loadAdapter() {
         mAdapter = CalendarGridAdapter(
             context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
         ) {
@@ -110,6 +112,16 @@ class CustomCalendarView : LinearLayout {
         }
         mAdapter!!.selectedDate = openAt
         mCalendarGridView!!.adapter = mAdapter
+    }
+
+    private fun openAt() {
+        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
+        mCurrentEthiopianYear = values[0]
+        mCurrentEthiopianMonth = values[1]
+        mCurrentEthiopianDay = values[2]
+        dayValueInCells = getListOfDates(mCalendar)
+        setCalendarHeaderLabel()
+        loadAdapter()
         validateMinDate()
         validateMaxDate()
     }
@@ -129,15 +141,8 @@ class CustomCalendarView : LinearLayout {
                     ContextCompat.getColor(context, R.color.colorPrimary)
                 )
 
-        bindViews(calendarPrimaryColor)
-        mAdapter = CalendarGridAdapter(
-            context, dayValueInCells, calendarPrimaryColor, mFirstDayOfTheMonth!!
-        ) {
-            if (::onSelectListener.isInitialized) {
-                onSelectListener.onDateSelect(it)
-            }
-        }
-        mCalendarGridView!!.adapter = mAdapter
+        bindViews()
+        loadAdapter()
         mCalendarGridView!!.horizontalSpacing =
             context.resources.getDimension(R.dimen.item_spacing).toInt()
         mCalendarGridView!!.verticalSpacing =
@@ -147,19 +152,26 @@ class CustomCalendarView : LinearLayout {
         validateMaxDate()
     }
 
-    private fun bindViews(calendarPrimaryColor: Int) {
+    private fun setHeaderColors(){
+        mainView.findViewById<View>(R.id.header_title).setBackgroundColor(calendarPrimaryColor)
+        mainView.findViewById<View>(R.id.subheader).setBackgroundColor(calendarPrimaryColor)
+    }
+
+    private val mainView by lazy{
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view: View = inflater.inflate(R.layout.calendar_view, this)
+        inflater.inflate(R.layout.calendar_view, this)
+    }
 
-        view.findViewById<View>(R.id.header_title).setBackgroundColor(calendarPrimaryColor)
-        view.findViewById<View>(R.id.subheader).setBackgroundColor(calendarPrimaryColor)
+    private fun bindViews() {
 
-        mPreviousBtn = view.findViewById(R.id.previous_month_button)
-        mNextBtn = view.findViewById(R.id.next_month_button)
-        mCurrentMonthEC = view.findViewById(R.id.month_display_EC)
-        mCurrentMonthGC = view.findViewById(R.id.moth_display_GC)
+        setHeaderColors()
+
+        mPreviousBtn = mainView.findViewById(R.id.previous_month_button)
+        mNextBtn = mainView.findViewById(R.id.next_month_button)
+        mCurrentMonthEC = mainView.findViewById(R.id.month_display_EC)
+        mCurrentMonthGC = mainView.findViewById(R.id.moth_display_GC)
         setCalendarHeaderLabel()
-        mCalendarGridView = view.findViewById(R.id.calendar_grid)
+        mCalendarGridView = mainView.findViewById(R.id.calendar_grid)
         mNextBtn?.setOnClickListener {
             mCurrentEthiopianYear =
                 if (mCurrentEthiopianMonth == 13) mCurrentEthiopianYear + 1 else mCurrentEthiopianYear
