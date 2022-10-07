@@ -89,7 +89,10 @@ class CalendarGridAdapter(
         with(cellViewHolder) {
             todayDateView.isVisible = false
             selectedDateView.isVisible = calendarSelected.isEqualDate(selectedDate) &&
-                    displayMonthEth == currentMonth && displayYearEth == currentYear
+                    displayMonthEth == currentMonth && displayYearEth == currentYear &&
+                    (minDate == null || calendarSelected.isGreaterThanOrEqual(minDate)) &&
+                    (maxDate == null || calendarSelected.isLessThanOrEqual(maxDate))
+
             cellDateEth.text = dayValueEth.toString()
             cellDateGreg.text =
                 DayAndDates.Months.gMonths.get(calendarSelected[Calendar.MONTH]) + " " + calendarSelected[Calendar.DAY_OF_MONTH]
@@ -115,7 +118,7 @@ class CalendarGridAdapter(
 
                 if (calendarSelected.isEqualDate(selectedDate)) {
                     setTextColorRes(R.color.colorWhite)
-                } else setTextColorRes(calendarPrimaryColor)
+                } else setTextColor(calendarPrimaryColor)
 
             } else if (calendarSelected.isEqualDate(selectedDate) &&
                 displayMonthEth == currentMonth && displayYearEth == currentYear

@@ -37,9 +37,15 @@ class CustomCalendarView : LinearLayout {
      */
     var minDate: Long? = null
         set(value) {
-            field = value
+
+            // Modify minDate equal to maxDate
+            field = if (maxDate != null && value != null && value > maxDate!!) {
+                maxDate!!
+            } else {
+                value
+            }
             validateMinDate()
-            mAdapter?.minDate = value
+            mAdapter?.minDate = field
         }
 
     /**
@@ -47,9 +53,14 @@ class CustomCalendarView : LinearLayout {
      */
     var maxDate: Long? = null
         set(value) {
-            field = value
+            // Modify maxDate equal to minDate
+            field = if (minDate != null && value != null && value < minDate!!) {
+                minDate!!
+            } else {
+                value
+            }
             validateMaxDate()
-            mAdapter?.maxDate = value
+            mAdapter?.maxDate = field
         }
 
     /**
