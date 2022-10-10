@@ -25,14 +25,4 @@ class DayAndDates {
             "ጳጉሜ"
         )
     }
-
-    object DaysOfWeek {
-        var ethDays = intArrayOf(
-            R.string.mon, R.string.tue, R.string.wed, R.string.thu, R.string.fri,
-            R.string.sat, R.string.sun
-        )
-        var gregDays = arrayOf(
-            "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-        )
-    }
 }

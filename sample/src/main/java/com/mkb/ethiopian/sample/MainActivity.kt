@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.mkb.ethiopian.sample.databinding.ActivityMainBinding
+import com.yariksoffice.lingver.Lingver
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+
+        val locale = Locale.forLanguageTag("am-ET")
+        Lingver.getInstance().setLocale(this, locale)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

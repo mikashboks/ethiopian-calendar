@@ -3,6 +3,7 @@
     <string name="memo">ማስታወሻ</string>
     <string name="calendar">የቀን መቁጠሪያ</string>
     <string name="agenda">አጀንዳ</string>
+
     <string name="sun">እሁድ</string>
     <string name="mon">ሰኞ</string>
     <string name="tue">ማክሰኞ</string>
@@ -24,7 +25,8 @@
     <string name="month11">ኅምሌ</string>
     <string name="month12">ነኅሴ</string>
     <string name="month13">ጳጉሜ</string>
-    <string name="last_date">30</string>
-    <string name="button_positive">OK</string>
-    <string name="button_negative">CANCEL</string>
+
+    <string name="last_date" translatable="false" >30</string>
+    <string name="button_positive" translatable="false">OK</string>
+    <string name="button_negative" translatable="false">CANCEL</string>
 </resources>

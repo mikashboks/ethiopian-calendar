@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="memo">Yaadannoo</string>
+    <string name="calendar">Kaalaandarii</string>
+    <string name="agenda">Ajandaa</string>
+
+    <string name="sun">Dil</string>
+    <string name="mon">Wix</string>
+    <string name="tue">Kib</string>
+    <string name="wed">Roo</string>
+    <string name="thu">Kam</string>
+    <string name="fri">Jim</string>
+    <string name="sat">Sam</string>
+
+    <string name="month1">Amajjii</string>
+    <string name="month2">Guraandhala</string>
+    <string name="month3">Bitooteessa</string>
+    <string name="month4">Caamsa</string>
+    <string name="month5">Eblaa</string>
+    <string name="month6">Waxbajji</string>
+    <string name="month7">Adooleessa</string>
+    <string name="month8">Hagayaa</string>
+    <string name="month9">Fulbaana</string>
+    <string name="month10">Onkolooleesa</string>
+    <string name="month11">Sadaasa</string>
+    <string name="month12">Muddee</string>
+    <string name="month13">Pagume</string>
+</resources>
