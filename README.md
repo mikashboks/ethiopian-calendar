@@ -1,4 +1,5 @@
-# ethiopian-calendar
+# ethiopian-calendar [![](https://jitpack.io/v/mikashboks/ethiopian-calendar.svg)](https://jitpack.io/#mikashboks/ethiopian-calendar)
+
 
 Sample Usage
 -----
@@ -7,7 +8,7 @@ Sample Usage
 
 ```gradle
 dependencies {
-    implementation project(path: ':ethiopian-calendar-lib')
+    implementation 'com.github.mikashboks:ethiopian-calendar:1.0.2'
 }
 ```
 
