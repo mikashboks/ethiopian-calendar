@@ -60,8 +60,17 @@ class FirstFragment : Fragment() {
         binding.btnPicker.setOnClickListener { openDatePicker() }
     }
 
-    private fun openDatePicker(){
+    private fun openDatePicker() {
         val calendarPickerFragment = CalenderPickerFragment.newInstance(
+            openAt = Calendar.getInstance().let {
+                it.set(2023, 6, 2); it.timeInMillis
+            },
+            minDate = Calendar.getInstance().let {
+                it.set(2023, 5, 2); it.timeInMillis
+            },
+            maxDate = Calendar.getInstance().let {
+                it.set(2023, 7, 2); it.timeInMillis
+            },
             onSelectListener = object : OnSelectListener {
                 override fun onDateSelect(date: Long) {
                     val dateString = DateFormat.format("dd-MM-yyyy", date)
