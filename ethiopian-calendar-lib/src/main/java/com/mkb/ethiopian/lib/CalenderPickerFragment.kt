@@ -28,6 +28,7 @@ class CalenderPickerFragment() : DialogFragment() {
     private val minDate: Long? by lazy { arguments?.getLong(ARG_MIN_DATE, 0) }
     private val maxDate: Long? by lazy { arguments?.getLong(ARG_MAX_DATE, 0) }
     val primaryColor: Int? by lazy { arguments?.getInt(ARG_PRIMARY_COLOR, 0) }
+    private var selectedDate : Long? = null
 
     private lateinit var pickerFragmentBinding: FragmentCalenderPickerBinding
 
@@ -49,7 +50,18 @@ class CalenderPickerFragment() : DialogFragment() {
             it.openAt = openAt
             it.minDate = minDate
             it.maxDate = maxDate
-            onSelectListener?.let { onSelect -> it.onSelectListener = onSelect }
+            it.onSelectListener = object : OnSelectListener{
+                override fun onDateSelect(date: Long) {
+                    selectedDate = date
+                }
+            }
+        }
+
+        pickerFragmentBinding.btnNegative.setOnClickListener { dismiss() }
+        pickerFragmentBinding.btnPositive.setOnClickListener {
+            if(selectedDate == null) return@setOnClickListener
+            onSelectListener?.onDateSelect(selectedDate!!)
+            dismiss()
         }
     }
 
@@ -58,6 +70,7 @@ class CalenderPickerFragment() : DialogFragment() {
         dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT
         )
+        dialog?.setCanceledOnTouchOutside(false)
     }
 
     companion object {

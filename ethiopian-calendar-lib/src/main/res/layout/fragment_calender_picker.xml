@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="8dp"
         tools:context=".CalenderPickerFragment">
 
         <com.mkb.ethiopian.lib.CustomCalendarView
@@ -26,18 +27,23 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPositive"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/button_positive"
+            android:textColor="@{fragment.primaryColor == 0 ? @color/colorPrimary : fragment.primaryColor}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etCalendarView" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNegative"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_negative"
+            android:textColor="@{fragment.primaryColor == 0 ? @color/colorPrimary : fragment.primaryColor}"
             app:layout_constraintBottom_toBottomOf="@id/btnPositive"
             app:layout_constraintEnd_toStartOf="@id/btnPositive"
             app:layout_constraintTop_toTopOf="@id/btnPositive" />

@@ -57,7 +57,6 @@ class FirstFragment : Fragment() {
             }
         }
 
-
         binding.btnPicker.setOnClickListener { openDatePicker() }
     }
 
