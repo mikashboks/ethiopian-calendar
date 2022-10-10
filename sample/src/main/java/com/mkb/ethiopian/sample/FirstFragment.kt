@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.mkb.ethiopian.lib.CalenderPickerFragment
 import com.mkb.ethiopian.lib.models.OnSelectListener
 import com.mkb.ethiopian.sample.databinding.FragmentFirstBinding
 import java.util.Calendar
@@ -45,13 +46,9 @@ class FirstFragment : Fragment() {
             it.set(2023, 7, 1); it.timeInMillis
         }
 
-        /*binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }*/
-
         binding.calendarView.onSelectListener = object : OnSelectListener {
             override fun onDateSelect(date: Long) {
-                val dateString = DateFormat.format("dd MM yyyy", date)
+                val dateString = DateFormat.format("dd-MM-yyyy", date)
                 Toast.makeText(
                     requireContext(),
                     "Selected Date: $dateString",
@@ -59,6 +56,25 @@ class FirstFragment : Fragment() {
                 ).show()
             }
         }
+
+
+        binding.btnPicker.setOnClickListener { openDatePicker() }
+    }
+
+    private fun openDatePicker(){
+        val calendarPickerFragment = CalenderPickerFragment.newInstance(
+            onSelectListener = object : OnSelectListener {
+                override fun onDateSelect(date: Long) {
+                    val dateString = DateFormat.format("dd-MM-yyyy", date)
+                    Toast.makeText(
+                        requireContext(),
+                        "Selected Date: $dateString",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        )
+        calendarPickerFragment.show(childFragmentManager, "Date Picker")
     }
 
     override fun onDestroyView() {
