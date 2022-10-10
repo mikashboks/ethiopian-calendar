@@ -48,15 +48,16 @@ class CustomCalendarView : LinearLayout {
      */
     var minDate: Long? = null
         set(value) {
-
-            // Modify minDate equal to maxDate
-            field = if (maxDate != null && value != null && value > maxDate!!) {
-                maxDate!!
-            } else {
-                value
+            if (value != null && value > 0) {
+                // Modify minDate equal to maxDate
+                field = if (maxDate != null && value > maxDate!!) {
+                    maxDate!!
+                } else {
+                    value
+                }
+                validateMinDate()
+                mAdapter?.minDate = field
             }
-            validateMinDate()
-            mAdapter?.minDate = field
         }
 
     /**
@@ -64,14 +65,16 @@ class CustomCalendarView : LinearLayout {
      */
     var maxDate: Long? = null
         set(value) {
-            // Modify maxDate equal to minDate
-            field = if (minDate != null && value != null && value < minDate!!) {
-                minDate!!
-            } else {
-                value
+            if (value != null && value > 0) {
+                // Modify maxDate equal to minDate
+                field = if (minDate != null && value < minDate!!) {
+                    minDate!!
+                } else {
+                    value
+                }
+                validateMaxDate()
+                mAdapter?.maxDate = field
             }
-            validateMaxDate()
-            mAdapter?.maxDate = field
         }
 
     /**
@@ -80,8 +83,8 @@ class CustomCalendarView : LinearLayout {
     var openAt: Long? = null
         set(value) {
             field = value
-            value?.let {
-                mCalendar.timeInMillis = it
+            if (value != null && value > 0) {
+                mCalendar.timeInMillis = value
                 openAt()
             }
         }
@@ -152,12 +155,12 @@ class CustomCalendarView : LinearLayout {
         validateMaxDate()
     }
 
-    private fun setHeaderColors(){
+    private fun setHeaderColors() {
         mainView.findViewById<View>(R.id.header_title).setBackgroundColor(calendarPrimaryColor)
         mainView.findViewById<View>(R.id.subheader).setBackgroundColor(calendarPrimaryColor)
     }
 
-    private val mainView by lazy{
+    private val mainView by lazy {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.calendar_view, this)
     }
