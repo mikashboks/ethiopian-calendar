@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -86,11 +85,12 @@ class CalendarGridAdapter(
         val currentYear = values[0]
 
         calendarSelected.time = mTodayDate
+        val isShowingCurrentMonth = displayMonthEth == currentMonth && displayYearEth == currentYear
 
         with(cellViewHolder) {
             todayDateView.isVisible = false
             selectedDateView.isVisible = calendarSelected.isEqualDate(selectedDate) &&
-                    displayMonthEth == currentMonth && displayYearEth == currentYear &&
+                    isShowingCurrentMonth &&
                     (minDate == null || calendarSelected.isGreaterThanOrEqual(minDate)) &&
                     (maxDate == null || calendarSelected.isLessThanOrEqual(maxDate))
 
@@ -116,17 +116,17 @@ class CalendarGridAdapter(
                     selectedDateView.isVisible = true
                     selectedDate = calendarSelected.timeInMillis
                 }
-                todayDateView.isVisible = true
+                todayDateView.isVisible = isShowingCurrentMonth
 
-                if (calendarSelected.isEqualDate(selectedDate)) {
+                if (calendarSelected.isEqualDate(selectedDate) && isShowingCurrentMonth) {
                     setTextColorRes(R.color.colorWhite)
-                } else setTextColor(calendarPrimaryColor)
+                } else if(isShowingCurrentMonth) {
+                    setTextColor(calendarPrimaryColor)
+                } else setTextColorRes(R.color.LightGrey)
 
-            } else if (calendarSelected.isEqualDate(selectedDate) &&
-                displayMonthEth == currentMonth && displayYearEth == currentYear
-            ) {
+            } else if (calendarSelected.isEqualDate(selectedDate) && isShowingCurrentMonth) {
                 setTextColorRes(R.color.colorWhite)
-            } else if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
+            } else if (isShowingCurrentMonth) {
                 setTextColorRes(R.color.GreyBlue)
             } else setTextColorRes(R.color.LightGrey)
         }
@@ -138,7 +138,7 @@ class CalendarGridAdapter(
                 return@setOnClickListener
             }
 
-            if (displayMonthEth == currentMonth && displayYearEth == currentYear) {
+            if (isShowingCurrentMonth) {
                 selectedDate = calendarSelected.timeInMillis
                 onDateSelect.invoke(calendarSelected.timeInMillis)
                 notifyDataSetChanged()
