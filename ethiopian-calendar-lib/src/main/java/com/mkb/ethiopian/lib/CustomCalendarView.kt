@@ -35,7 +35,7 @@ class CustomCalendarView : LinearLayout {
     var calendarPrimaryColor: Int = 0
         set(value) {
             field = value
-            if (value > 0) {
+            if (value != 0) {
                 loadAdapter()
                 setHeaderColors()
             }
@@ -114,7 +114,7 @@ class CustomCalendarView : LinearLayout {
             }
         }
         mAdapter!!.selectedDate = openAt
-        mCalendarGridView!!.adapter = mAdapter
+        mCalendarGridView?.adapter = mAdapter
     }
 
     private fun openAt() {

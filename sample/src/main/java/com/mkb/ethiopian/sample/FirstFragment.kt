@@ -71,6 +71,7 @@ class FirstFragment : Fragment() {
             maxDate = Calendar.getInstance().let {
                 it.set(2023, 7, 2); it.timeInMillis
             },
+            primaryColor = requireContext().getColor(R.color.ImperialRed),
             onSelectListener = object : OnSelectListener {
                 override fun onDateSelect(date: Long) {
                     val dateString = DateFormat.format("dd-MM-yyyy", date)

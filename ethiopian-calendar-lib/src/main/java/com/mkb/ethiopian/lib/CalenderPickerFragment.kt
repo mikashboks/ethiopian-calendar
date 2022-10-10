@@ -24,10 +24,10 @@ class CalenderPickerFragment() : DialogFragment() {
         this.onSelectListener = onSelectListener
     }
 
-    private val openAt: Long? by lazy { arguments?.getLong(ARG_OPEN_AT, 0) }
-    private val minDate: Long? by lazy { arguments?.getLong(ARG_MIN_DATE, 0) }
-    private val maxDate: Long? by lazy { arguments?.getLong(ARG_MAX_DATE, 0) }
-    val primaryColor: Int? by lazy { arguments?.getInt(ARG_PRIMARY_COLOR, 0) }
+    private val openAt: Long by lazy { requireArguments().getLong(ARG_OPEN_AT, 0) }
+    private val minDate: Long by lazy { requireArguments().getLong(ARG_MIN_DATE, 0) }
+    private val maxDate: Long by lazy { requireArguments().getLong(ARG_MAX_DATE, 0) }
+    val primaryColor: Int by lazy { requireArguments().getInt(ARG_PRIMARY_COLOR, 0) }
     private var selectedDate : Long? = null
 
     private lateinit var pickerFragmentBinding: FragmentCalenderPickerBinding
@@ -78,7 +78,7 @@ class CalenderPickerFragment() : DialogFragment() {
         @JvmStatic
         fun newInstance(
             openAt: Long? = null, minDate: Long? = null, maxDate: Long? = null,
-            @ColorRes primaryColor: Int? = null, onSelectListener: OnSelectListener
+            primaryColor: Int? = null, onSelectListener: OnSelectListener
         ) = CalenderPickerFragment(onSelectListener).apply {
             arguments = bundleOf(
                 ARG_OPEN_AT to openAt, ARG_MIN_DATE to minDate, ARG_MAX_DATE to maxDate,
