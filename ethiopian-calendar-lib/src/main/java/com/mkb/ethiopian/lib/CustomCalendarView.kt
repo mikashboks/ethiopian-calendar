@@ -1,6 +1,7 @@
 package com.mkb.ethiopian.lib
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,9 +18,11 @@ import java.util.Date
 
 
 class CustomCalendarView : LinearLayout {
+
     private val mCalendar: Calendar by lazy {
         removeTime(Calendar.getInstance())
     }
+
     private var mPreviousBtn: ImageView? = null
     private var mNextBtn: ImageView? = null
     private var mCurrentMonthEC: TextView? = null
@@ -32,21 +35,14 @@ class CustomCalendarView : LinearLayout {
     private var mCurrentEthiopianDay = 0
     private var mFirstDayOfTheMonth: Date? = null
 
-    var calendarPrimaryColor: Int = 0
-        set(value) {
-            field = value
-            if (value != 0) {
-                loadAdapter()
-                setHeaderColors()
-            }
-        }
+    private var calendarPrimaryColor: Int = 0
 
-    lateinit var onSelectListener: OnSelectListener
+    private lateinit var onSelectListener: OnSelectListener
 
     /**
      * Minimal long date that user can select
      */
-    var minDate: Long? = null
+    private var minDate: Long? = null
         set(value) {
             if (value != null && value > 0) {
                 // Modify minDate equal to maxDate
@@ -55,15 +51,13 @@ class CustomCalendarView : LinearLayout {
                 } else {
                     value
                 }
-                validateMinDate()
-                mAdapter?.minDate = field
             }
         }
 
     /**
      * Maximum long date that user can select
      */
-    var maxDate: Long? = null
+    private var maxDate: Long? = null
         set(value) {
             if (value != null && value > 0) {
                 // Modify maxDate equal to minDate
@@ -72,22 +66,13 @@ class CustomCalendarView : LinearLayout {
                 } else {
                     value
                 }
-                validateMaxDate()
-                mAdapter?.maxDate = field
             }
         }
 
     /**
      * By Default selected long date when calendar first time opens
      */
-    var openAt: Long? = null
-        set(value) {
-            field = value
-            if (value != null && value > 0) {
-                mCalendar.timeInMillis = value
-                openAt()
-            }
-        }
+    private var openAt: Long? = null
 
     constructor(context: Context?) : super(context) {
         initView(null)
@@ -114,28 +99,12 @@ class CustomCalendarView : LinearLayout {
             }
         }
         mAdapter!!.selectedDate = openAt
+        mAdapter!!.minDate = minDate
+        mAdapter!!.maxDate = maxDate
         mCalendarGridView?.adapter = mAdapter
     }
 
-    private fun openAt() {
-        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
-        mCurrentEthiopianYear = values[0]
-        mCurrentEthiopianMonth = values[1]
-        mCurrentEthiopianDay = values[2]
-        dayValueInCells = getListOfDates(mCalendar)
-        setCalendarHeaderLabel()
-        loadAdapter()
-        validateMinDate()
-        validateMaxDate()
-    }
-
     private fun initView(attrs: AttributeSet?) {
-        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
-        mCurrentEthiopianYear = values[0]
-        mCurrentEthiopianMonth = values[1]
-        mCurrentEthiopianDay = values[2]
-        dayValueInCells = getListOfDates(mCalendar)
-
         // Get the calendar primary color
         calendarPrimaryColor =
             context.theme.obtainStyledAttributes(attrs, R.styleable.CustomCalendarView, 0, 0)
@@ -143,9 +112,32 @@ class CustomCalendarView : LinearLayout {
                     R.styleable.CustomCalendarView_calendarPrimaryColor,
                     ContextCompat.getColor(context, R.color.colorPrimary)
                 )
+    }
+
+    fun buildCalendar(
+        openAt: Long? = null, minDate: Long? = null, maxDate: Long? = null,
+        primaryColor: Int? = null, onSelectListener: OnSelectListener
+    ) {
+        this.openAt = openAt
+        this.minDate = minDate
+        this.maxDate = maxDate
+        primaryColor?.let { this.calendarPrimaryColor = it }
+        this.onSelectListener = onSelectListener
+
+        if (openAt != null && openAt > 0) {
+            mCalendar.timeInMillis = openAt
+        }
+
+        val values: IntArray = EthiopicCalendar(mCalendar).gregorianToEthiopic()
+        mCurrentEthiopianYear = values[0]
+        mCurrentEthiopianMonth = values[1]
+        mCurrentEthiopianDay = values[2]
+        dayValueInCells = getListOfDates(mCalendar)
 
         bindViews()
+        setCalendarHeaderLabel()
         loadAdapter()
+
         mCalendarGridView!!.horizontalSpacing =
             context.resources.getDimension(R.dimen.item_spacing).toInt()
         mCalendarGridView!!.verticalSpacing =

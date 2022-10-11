@@ -24,22 +24,8 @@ class CalendarGridAdapter(
 ) : ArrayAdapter<Date>(mContext, R.layout.cell_layout) {
 
     var selectedDate: Long? = null
-
     var minDate: Long? = null
-        set(value) {
-            field = value
-            value?.let {
-                notifyDataSetChanged()
-            }
-        }
-
     var maxDate: Long? = null
-        set(value) {
-            field = value
-            value?.let {
-                notifyDataSetChanged()
-            }
-        }
 
     private val mInflater: LayoutInflater = LayoutInflater.from(mContext)
 

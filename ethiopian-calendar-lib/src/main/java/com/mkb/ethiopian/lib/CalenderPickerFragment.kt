@@ -46,16 +46,17 @@ class CalenderPickerFragment() : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pickerFragmentBinding.etCalendarView.let {
-            it.openAt = openAt
-            it.minDate = minDate
-            it.maxDate = maxDate
-            it.onSelectListener = object : OnSelectListener{
+        pickerFragmentBinding.etCalendarView.buildCalendar(
+            openAt = openAt,
+            minDate = minDate,
+            maxDate = maxDate,
+            primaryColor = primaryColor,
+            onSelectListener = object : OnSelectListener{
                 override fun onDateSelect(date: Long) {
                     selectedDate = date
                 }
             }
-        }
+        )
 
         pickerFragmentBinding.btnNegative.setOnClickListener { dismiss() }
         pickerFragmentBinding.btnPositive.setOnClickListener {

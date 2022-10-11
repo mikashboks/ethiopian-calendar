@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mkb.ethiopian.lib.CalenderPickerFragment
 import com.mkb.ethiopian.lib.models.OnSelectListener
@@ -34,28 +35,28 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.calendarView.openAt = Calendar.getInstance().let {
-            it.set(2023, 6, 2); it.timeInMillis
-        }
-
-        binding.calendarView.minDate = Calendar.getInstance().let {
-            it.set(2023, 5, 1); it.timeInMillis
-        }
-
-        binding.calendarView.maxDate = Calendar.getInstance().let {
-            it.set(2023, 7, 1); it.timeInMillis
-        }
-
-        binding.calendarView.onSelectListener = object : OnSelectListener {
-            override fun onDateSelect(date: Long) {
-                val dateString = DateFormat.format("dd-MM-yyyy", date)
-                Toast.makeText(
-                    requireContext(),
-                    "Selected Date: $dateString",
-                    Toast.LENGTH_SHORT
-                ).show()
+        binding.calendarView.buildCalendar(
+            openAt = Calendar.getInstance().let {
+                it.set(2006, 9, 2); it.timeInMillis
+            },
+            minDate = Calendar.getInstance().let {
+                it.set(2006, 8, 2); it.timeInMillis
+            },
+            maxDate = Calendar.getInstance().let {
+                it.set(2006, 9, 13); it.timeInMillis
+            },
+            primaryColor = ContextCompat.getColor(requireContext(), com.mkb.ethiopian.lib.R.color.colorPrimary),
+            onSelectListener = object : OnSelectListener {
+                override fun onDateSelect(date: Long) {
+                    val dateString = DateFormat.format("dd-MM-yyyy", date)
+                    Toast.makeText(
+                        requireContext(),
+                        "Selected Date: $dateString",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-        }
+        )
 
         binding.btnPicker.setOnClickListener { openDatePicker() }
     }
@@ -63,15 +64,15 @@ class FirstFragment : Fragment() {
     private fun openDatePicker() {
         val calendarPickerFragment = CalenderPickerFragment.newInstance(
             openAt = Calendar.getInstance().let {
-                it.set(2023, 6, 2); it.timeInMillis
+                it.set(2006, 9, 2); it.timeInMillis
             },
             minDate = Calendar.getInstance().let {
-                it.set(2023, 5, 2); it.timeInMillis
+                it.set(2006, 5, 2); it.timeInMillis
             },
             maxDate = Calendar.getInstance().let {
-                it.set(2023, 7, 2); it.timeInMillis
+                it.set(2006, 9, 20); it.timeInMillis
             },
-            primaryColor = requireContext().getColor(R.color.ImperialRed),
+            primaryColor = ContextCompat.getColor(requireContext(), R.color.ImperialRed),
             onSelectListener = object : OnSelectListener {
                 override fun onDateSelect(date: Long) {
                     val dateString = DateFormat.format("dd-MM-yyyy", date)
