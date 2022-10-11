@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="memo">Note</string>
+    <string name="calendar">Calendar</string>
+    <string name="agenda">Agenda</string>
+
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+
+    <string name="month1">September</string>
+    <string name="month2">October</string>
+    <string name="month3">November</string>
+    <string name="month4">December</string>
+    <string name="month5">January</string>
+    <string name="month6">February</string>
+    <string name="month7">March</string>
+    <string name="month8">April</string>
+    <string name="month9">May</string>
+    <string name="month10">June</string>
+    <string name="month11">July</string>
+    <string name="month12">August</string>
+    <string name="month13">Pagume</string>
+</resources>
