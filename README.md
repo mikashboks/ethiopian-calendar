@@ -23,10 +23,35 @@ There are two types of usage available for this lib, 1) As custom calendar view 
         android:id="@+id/calendar_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:calendarPrimaryColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+```
+
+```
+binding.calendarView.buildCalendar(
+        openAt = Calendar.getInstance().let {
+            it.set(2006, 9, 2); it.timeInMillis
+        },
+        minDate = Calendar.getInstance().let {
+            it.set(2006, 8, 2); it.timeInMillis
+        },
+        maxDate = Calendar.getInstance().let {
+            it.set(2006, 9, 13); it.timeInMillis
+        },
+        primaryColor = ContextCompat.getColor(requireContext(), com.mkb.ethiopian.lib.R.color.colorPrimary),
+        onSelectListener = object : OnSelectListener {
+            override fun onDateSelect(date: Long) {
+                val dateString = DateFormat.format("dd-MM-yyyy", date)
+                Toast.makeText(
+                    requireContext(),
+                    "Selected Date: $dateString",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    )
 
 ```
 
@@ -61,27 +86,28 @@ calendarView.onSelectListener = object : OnSelectListener {
 
 ```
 val calendarPickerFragment = CalenderPickerFragment.newInstance(
-            openAt = Calendar.getInstance().let {
-                it.set(2023, 6, 2); it.timeInMillis
-            },
-            minDate = Calendar.getInstance().let {
-                it.set(2023, 5, 2); it.timeInMillis
-            },
-            maxDate = Calendar.getInstance().let {
-                it.set(2023, 7, 2); it.timeInMillis
-            },
-            onSelectListener = object : OnSelectListener {
-                override fun onDateSelect(date: Long) {
-                    val dateString = DateFormat.format("dd-MM-yyyy", date)
-                    Toast.makeText(
-                        requireContext(),
-                        "Selected Date: $dateString",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        openAt = Calendar.getInstance().let {
+            it.set(2006, 9, 2); it.timeInMillis
+        },
+        minDate = Calendar.getInstance().let {
+            it.set(2006, 5, 2); it.timeInMillis
+        },
+        maxDate = Calendar.getInstance().let {
+            it.set(2006, 9, 20); it.timeInMillis
+        },
+        primaryColor = ContextCompat.getColor(requireContext(), R.color.ImperialRed),
+        onSelectListener = object : OnSelectListener {
+            override fun onDateSelect(date: Long) {
+                val dateString = DateFormat.format("dd-MM-yyyy", date)
+                Toast.makeText(
+                    requireContext(),
+                    "Selected Date: $dateString",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        )
-        calendarPickerFragment.show(childFragmentManager, "Date Picker")
+        }
+    )
+    calendarPickerFragment.show(childFragmentManager, "Date Picker")
 ```
 
 Screening
