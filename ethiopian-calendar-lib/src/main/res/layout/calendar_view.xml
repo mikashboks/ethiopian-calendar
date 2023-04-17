@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,11 +19,21 @@
             android:id="@+id/previous_month_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="5dp"
             android:background="?selectableItemBackgroundBorderless"
             android:baselineAligned="false"
             android:padding="5dp"
             android:src="@drawable/ic_navigate_before_black_24dp" />
+
+    <ImageView
+            android:id="@+id/previous_year_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:baselineAligned="false"
+            android:padding="5dp"
+            android:src="@drawable/double_arrow_left_24"
+            tools:tint="@color/colorWhite"
+            app:tint="@color/colorWhite" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -53,10 +65,19 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/next_year_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            tools:tint="@color/colorWhite"
+            android:src="@drawable/double_arrow_right_24"
+            app:tint="@color/colorWhite" />
+
+        <ImageView
             android:id="@+id/next_month_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="5dp"
             android:background="?selectableItemBackgroundBorderless"
             android:padding="5dp"
             android:src="@drawable/ic_navigate_next_black_24dp" />

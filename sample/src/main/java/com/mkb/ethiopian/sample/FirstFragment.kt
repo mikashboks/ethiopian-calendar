@@ -40,7 +40,7 @@ class FirstFragment : Fragment() {
                 it.set(2006, 9, 2); it.timeInMillis
             },
             minDate = Calendar.getInstance().let {
-                it.set(2006, 8, 2); it.timeInMillis
+                it.set(2004, 8, 2); it.timeInMillis
             },
             maxDate = Calendar.getInstance().let {
                 it.set(2006, 9, 13); it.timeInMillis

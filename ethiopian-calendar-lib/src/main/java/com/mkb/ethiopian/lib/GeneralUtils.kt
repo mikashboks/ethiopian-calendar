@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 fun Context.getColorFromContext(@ColorInt resId: Int): Int {
     val typedValue = TypedValue()
@@ -65,4 +66,22 @@ fun Calendar.isGreaterThanOrEqual(date: Long?): Boolean {
 fun Calendar.isLessThanOrEqual(date: Long?): Boolean {
     if (date == null) return false
     return timeInMillis < date || isEqualDate(date)
+}
+
+fun hasAYearDiff(dateFrom: Long, dateTo: Long): Boolean {
+    return getDiffInDays(dateFrom, dateTo) >= 365
+}
+
+fun getTimeInMills(day: Int, month: Int, year: Int): Long {
+    return getCalendar(day, month, year).timeInMillis
+}
+
+fun getCalendar(day: Int, month: Int, year: Int): Calendar {
+    return Calendar.getInstance().apply {
+        set(year, month, day)
+    }
+}
+
+fun getDiffInDays(dateFrom: Long, dateTo: Long): Long {
+    return TimeUnit.MILLISECONDS.toDays(dateTo - dateFrom) + 1
 }

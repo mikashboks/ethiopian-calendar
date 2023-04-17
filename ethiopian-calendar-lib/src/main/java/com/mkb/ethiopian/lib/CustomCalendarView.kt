@@ -15,6 +15,7 @@ import com.mkb.ethiopian.lib.models.DayAndDates
 import com.mkb.ethiopian.lib.models.OnSelectListener
 import java.util.Calendar
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 
 class CustomCalendarView : LinearLayout {
@@ -23,8 +24,10 @@ class CustomCalendarView : LinearLayout {
         removeTime(Calendar.getInstance())
     }
 
+    private var mPreviousYearBtn: ImageView? = null
     private var mPreviousBtn: ImageView? = null
     private var mNextBtn: ImageView? = null
+    private var mNextYearBtn: ImageView? = null
     private var mCurrentMonthEC: TextView? = null
     private var mCurrentMonthGC: TextView? = null
     private var mCalendarGridView: GridView? = null
@@ -163,6 +166,9 @@ class CustomCalendarView : LinearLayout {
 
         mPreviousBtn = mainView.findViewById(R.id.previous_month_button)
         mNextBtn = mainView.findViewById(R.id.next_month_button)
+        mPreviousYearBtn = mainView.findViewById(R.id.previous_year_button)
+        mNextYearBtn = mainView.findViewById(R.id.next_year_button)
+
         mCurrentMonthEC = mainView.findViewById(R.id.month_display_EC)
         mCurrentMonthGC = mainView.findViewById(R.id.moth_display_GC)
         setCalendarHeaderLabel()
@@ -179,6 +185,15 @@ class CustomCalendarView : LinearLayout {
                 if (mCurrentEthiopianMonth > 1) mCurrentEthiopianYear else mCurrentEthiopianYear - 1
             mCurrentEthiopianMonth =
                 if (mCurrentEthiopianMonth > 1) mCurrentEthiopianMonth - 1 else 13
+            changeMonth()
+        }
+
+        mNextYearBtn?.setOnClickListener {
+            mCurrentEthiopianYear += 1
+            changeMonth()
+        }
+        mPreviousYearBtn?.setOnClickListener {
+            mCurrentEthiopianYear -= 1
             changeMonth()
         }
     }
@@ -198,6 +213,7 @@ class CustomCalendarView : LinearLayout {
             timeInMillis = minDate!!
         }
         val minValues: IntArray = EthiopicCalendar(minCalendar).gregorianToEthiopic()
+        val prevDay = minValues[2]
         val prevMonth = minValues[1]
         val prevYear = minValues[0]
 
@@ -205,6 +221,13 @@ class CustomCalendarView : LinearLayout {
             prevYear <= mCurrentEthiopianYear
         ) true else prevYear < mCurrentEthiopianYear
         mPreviousBtn?.enableView(enablePrevMonthArrow)
+
+        val ecal = EthiopicCalendar(mCurrentEthiopianYear, mCurrentEthiopianMonth, 1)
+        val greValues: IntArray = ecal.ethiopicToGregorian()
+
+        mPreviousYearBtn?.enableView(hasAYearDiff(
+            minDate!!, getTimeInMills(greValues[2], greValues[1], greValues[0])
+        ))
     }
 
     private fun validateMaxDate() {
@@ -213,6 +236,7 @@ class CustomCalendarView : LinearLayout {
             timeInMillis = maxDate!!
         }
         val maxValues: IntArray = EthiopicCalendar(maxCalendar).gregorianToEthiopic()
+        val nextDay = maxValues[2]
         val nextMonth = maxValues[1]
         val nextYear = maxValues[0]
 
@@ -220,6 +244,12 @@ class CustomCalendarView : LinearLayout {
             nextYear >= mCurrentEthiopianYear
         ) true else nextYear > mCurrentEthiopianYear
         mNextBtn?.enableView(enableNextMonthArrow)
+
+        val ecal = EthiopicCalendar(mCurrentEthiopianYear, mCurrentEthiopianMonth, 1)
+        val greValues: IntArray = ecal.ethiopicToGregorian()
+        mNextYearBtn?.enableView(hasAYearDiff(
+            getTimeInMills(greValues[2], greValues[1], greValues[0]), maxDate!!
+        ))
     }
 
     private fun setCalendarHeaderLabel() {

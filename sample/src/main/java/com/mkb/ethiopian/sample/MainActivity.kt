@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
-        val locale = Locale.forLanguageTag("am-ET")
+        val locale = Locale.forLanguageTag("om-ET")
         Lingver.getInstance().setLocale(this, locale)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
